@@ -10,7 +10,7 @@ where user_skillset.user_email='a@gmail.com' and user_skillset.user_email=user_s
 """
 
 def _sql_set(email):
-    sql = "select user_skillset.user_email, user_skillset.skill, user_search_log.log, user_view_log.log from user_skillset, user_search_log, user_view_log where user_skillset.user_email="\
+    sql = "select distinct user_skillset.user_email, user_skillset.skill, user_search_log.log, user_view_log.log from user_skillset, user_search_log, user_view_log where user_skillset.user_email="\
           + "'" + str(email) + "' " + "and user_skillset.user_email=user_search_log.user_email and user_skillset.user_email=user_view_log.user_email;"
 
     return sql
@@ -21,6 +21,8 @@ result = cursor.fetchall()
 
 for i in result:
     print(i)
+
+print("\n=====================================================\n")
 
 pd_result = pd.DataFrame(result)
 print(result)

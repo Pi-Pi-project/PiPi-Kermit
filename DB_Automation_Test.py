@@ -19,12 +19,14 @@ cursor = DB.cursor(pymysql.cursors.DictCursor)
 cursor.execute(_sql_set("a@gmail.com"))
 result = cursor.fetchall()
 
+print("Non Pandas")
 for i in result:
     print(i)
 
 print("\n=====================================================\n")
 
 pd_result = pd.DataFrame(result)
+print("Pandas")
 print(result)
 
 DB.close()

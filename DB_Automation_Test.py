@@ -1,5 +1,6 @@
 import pymysql
 import pandas as pd
+import numpy as np
 from db_connect_setting import DB
 
 """
@@ -27,6 +28,12 @@ print("\n=====================================================\n")
 
 pd_result = pd.DataFrame(result)
 print("Pandas")
-print(result)
+print(pd_result)
+
+print("\n=====================================================\n")
+print("Pandas Test")
+print(pd_result["skill"])
+print(list(pd_result["skill"]))
+print(set(list(pd_result["skill"])))
 
 DB.close()

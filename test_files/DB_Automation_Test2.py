@@ -1,7 +1,7 @@
 import pymysql
 import pandas as pd
 import numpy as np
-from db_connect_setting import DB
+from DB_connect_setting import DB
 
 email = "a@gmail.com"
 

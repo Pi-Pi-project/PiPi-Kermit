@@ -1,6 +1,6 @@
 import pymysql
 import pandas as pd
-from db_connect_setting import DB
+from DB_connect_setting import DB
 
 def _user_search_log(email):
     sql_query = "select user.email as 'email', user_search_log.log as 'search_log' from user, user_search_log" \

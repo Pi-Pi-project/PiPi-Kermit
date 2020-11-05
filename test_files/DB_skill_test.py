@@ -1,6 +1,6 @@
 import pymysql
 import pandas as pd
-from db_connect_setting import DB
+from DB_connect_setting import DB
 
 def _user_skill(email):
     sql_query = "select user.email as 'email', user_skillset.skill as 'user_skill' from user, user_skillset where user.email=" \

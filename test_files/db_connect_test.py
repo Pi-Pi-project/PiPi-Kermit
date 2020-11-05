@@ -1,6 +1,6 @@
 import pymysql
 import pandas as pd
-from db_connect_setting import DB
+from DB_connect_setting import DB
 
 cursor = DB.cursor(pymysql.cursors.DictCursor)
 sql = "SELECT *" \

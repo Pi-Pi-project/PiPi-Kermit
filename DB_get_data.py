@@ -31,6 +31,11 @@ def _user_view_log(email):
 
     return user_view_log
 
+def df_information(dataframe):
+    print("================================[DataFrame information]================================".format(str(dataframe)))
+    print(dataframe.head(), "\n")
+    print(dataframe.describe(), "\n")
+
 # try:
 #     cursor.execute(_user_skill(email))
 #     user_skill = pd.DataFrame(cursor.fetchall())

@@ -1,24 +1,39 @@
 import pandas as pd
 from DB_connect_setting import DB
-from DB_get_data import _user_skill, _user_search_log, _user_view_log, df_information
+from DB_get_data import _user_skill, _user_search_log, _user_view_log
 
 email = "a@gmail.com"
 
 try:
     # Get Data from MySQL DB
-    user_skill_df = _user_skill(email)
-    user_search_log_df = _user_search_log(email)
-    user_view_log_df = _user_view_log(email)
+    skill_df = _user_skill(email)
+    search_log_df = _user_search_log(email)
+    view_log_df = _user_view_log(email)
 
 finally:
     DB.close()
 
-# df_information(user_skill_df)
-# df_information(user_search_log_df)
-# df_information(user_view_log_df)
+search_log_len = len(search_log_df)
+view_log_len = len(view_log_df)
 
-user_skill_list = list(user_skill_df["user_skill"])
-user_search_log_list = list(user_search_log_df["search_log"].loc[:len(user_search_log_df)-5:-1]).reverse()
-user_view_log_title_list = list(user_view_log_df.loc[:len(user_view_log_df)-5-1, ["title"]]).reverse()
-user_view_log_content_list = list(user_view_log_df.loc[:len(user_view_log_df)-5-1, ["post_content"]]).reverse()
-user_view_log_list = list(user_view_log_df.loc[:len(user_view_log_df)-5:-1, ["view_log"]]).reverse()
+skill_list = list(skill_df["user_skill"])
+
+# Need to check
+search_log_list = list(search_log_df["search_log"].iloc[:search_log_len-6:-1])
+search_log_list.reverse()
+
+view_title_list = list(view_log_df["title"].iloc[:view_log_len-6:-1])
+view_title_list.reverse()
+
+view_content_list = list(view_log_df["post_content"].iloc[:view_log_len-6:-1])
+view_content_list.reverse()
+
+view_log_list = list(view_log_df["view_log"].iloc[:view_log_len-6:-1])
+view_log_list.reverse()
+
+# Test
+print(skill_list)
+print(search_log_list)
+print(view_title_list)
+print(view_content_list)
+print(view_log_list)

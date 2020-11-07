@@ -30,26 +30,3 @@ def _user_view_log(email):
     user_view_log = pd.DataFrame(cursor.fetchall())
 
     return user_view_log
-
-def df_information(dataframe):
-    print("================================[DataFrame information]================================".format(str(dataframe)))
-    print(dataframe.head(), "\n")
-    print(dataframe.describe(), "\n")
-
-# try:
-#     cursor.execute(_user_skill(email))
-#     user_skill = pd.DataFrame(cursor.fetchall())
-#
-#     cursor.execute(_user_search_log(email))
-#     user_search_log = pd.DataFrame(cursor.fetchall())
-#
-#     cursor.execute(_user_view_log(email))
-#     user_view_log = pd.DataFrame(cursor.fetchall())
-
-# finally:
-#     DB.close()
-
-# Test
-# print(user_skill)
-# print(user_search_log)
-# print(user_view_log)

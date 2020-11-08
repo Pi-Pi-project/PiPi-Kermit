@@ -1,7 +1,9 @@
 import pandas as pd
 from DB_connect_setting import DB
 from DB_get_data import _user_skill, _user_search_log, _user_view_log
+from konlpy.tag import Okt
 
+okt = Okt()
 email = "a@gmail.com"
 
 try:
@@ -18,7 +20,6 @@ view_log_len = len(view_log_df)
 
 skill_list = list(skill_df["user_skill"])
 
-# Need to check
 search_log_list = list(search_log_df["search_log"].iloc[:search_log_len-6:-1])
 search_log_list.reverse()
 
@@ -37,3 +38,6 @@ print(search_log_list)
 print(view_title_list)
 print(view_content_list)
 print(view_log_list)
+
+print(okt.morphs(view_content_list[0]))
+print(okt.nouns(view_content_list[0]))

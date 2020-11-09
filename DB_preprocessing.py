@@ -4,6 +4,8 @@ from DB_get_data import _user_skill, _user_search_log, _user_view_log
 from eunjeon import Mecab
 
 mecab = Mecab()
+
+# Test Email
 email = "a@gmail.com"
 
 try:
@@ -19,6 +21,7 @@ finally:
 search_log_len = len(search_log_df)
 view_log_len = len(view_log_df)
 
+# Conver DataFrame to list
 skill_list = list(skill_df["user_skill"])
 
 search_log_list = list(search_log_df["search_log"].iloc[search_log_len-6::1])

@@ -1,12 +1,17 @@
+import re
 import pandas as pd
 from DB_connect_setting import DB
 from DB_get_data import _user_skill, _user_search_log, _user_view_log
 from eunjeon import Mecab
 
-mecab = Mecab()
-
 # Test Email
 email = "a@gmail.com"
+
+# 특수문자 제거를 위한 정규 표현식
+def regex(text_val):
+    return re.sub('[!@#$%^&*()_+~`]', '', text_val)
+
+mecab = Mecab()
 
 try:
     # Get Data from MySQL DB
@@ -36,12 +41,15 @@ view_content_list.reverse()
 view_log_list = list(view_log_df["view_log"].iloc[view_log_len-6::1])
 view_log_list.reverse()
 
-# Test
-print(skill_list)
-print(search_log_list)
-print(view_title_list)
-print(view_content_list)
-print(view_log_list)
+# # Test
+# print(skill_list)
+# print(search_log_list)
+# print(view_title_list)
+# print(view_content_list)
+# print(view_log_list)
+#
+# print(regex(view_content_list[0]))
 
-# print(mecab.morphs(view_content_list[0]))
-# print(mecab.nouns(view_content_list[0]))
+test = []
+test.append(regex(str(view_log_df["post_content"].iloc[view_log_len-6::1])[:]))
+print(test)

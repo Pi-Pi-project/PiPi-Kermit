@@ -9,7 +9,11 @@ email = "a@gmail.com"
 
 # 특수문자 제거를 위한 정규 표현식
 def regex(text_val):
-    return re.sub('[!@#$%^&*()_+~`]', '', text_val)
+    result = []
+    for val in text_val:
+        result.append(re.sub('[!@#$%^&*()_+~`]', '', val))
+
+    return result
 
 mecab = Mecab()
 
@@ -26,7 +30,7 @@ finally:
 search_log_len = len(search_log_df)
 view_log_len = len(view_log_df)
 
-# Conver DataFrame to list
+# Convert DataFrame to list
 skill_list = list(skill_df["user_skill"])
 
 search_log_list = list(search_log_df["search_log"].iloc[search_log_len-6::1])
@@ -41,15 +45,9 @@ view_content_list.reverse()
 view_log_list = list(view_log_df["view_log"].iloc[view_log_len-6::1])
 view_log_list.reverse()
 
-# # Test
+# Test
 # print(skill_list)
 # print(search_log_list)
 # print(view_title_list)
 # print(view_content_list)
 # print(view_log_list)
-#
-# print(regex(view_content_list[0]))
-
-test = []
-test.append(regex(str(view_log_df["post_content"].iloc[view_log_len-6::1])[:]))
-print(test)

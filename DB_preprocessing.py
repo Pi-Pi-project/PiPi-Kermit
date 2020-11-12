@@ -34,9 +34,9 @@ view_log_len = len(view_log_df)
 # 최신의 로그 5개를 추출
 skill_list = list(skill_df["user_skill"])
 search_log_list = list(search_log_df["search_log"].iloc[search_log_len-6::1])
-view_title_list = list(view_log_df["title"].iloc[view_log_len-6::1])
-view_content_list = list(view_log_df["post_content"].iloc[view_log_len-6::1])
-view_log_list = list(view_log_df["view_log"].iloc[view_log_len-6::1])
+view_title_list = regex(list(view_log_df["title"].iloc[view_log_len-6::1]))
+view_content_list = regex(list(view_log_df["post_content"].iloc[view_log_len-6::1]))
+view_log_list = regex(list(view_log_df["view_log"].iloc[view_log_len-6::1]))
 
 search_log_list.reverse()
 view_title_list.reverse()
@@ -49,9 +49,3 @@ print(search_log_list)
 print(view_title_list)
 print(view_content_list)
 print(view_log_list)
-
-for i in view_content_list:
-    test = re.sub('[!@#$%^&*()_+~`]', '', i)
-    print(test)
-
-    print(mecab.morphs(test))

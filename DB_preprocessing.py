@@ -7,14 +7,6 @@ from eunjeon import Mecab as mecab
 # Test Email
 email = "a@gmail.com"
 
-# 특수문자 제거를 위한 정규 표현식
-def regex(text_val):
-    result = []
-    for val in text_val:
-        result.append(re.sub('[!@#$%^&*()_+~`]', '', val))
-
-    return result
-
 try:
     # Get Data from MySQL DB
     skill_df = _user_skill(email)
@@ -24,6 +16,14 @@ try:
 finally:
     # Close the connection from the MySQL DB
     DB.close()
+
+# 특수문자 제거를 위한 정규 표현식
+def regex(text_val):
+    result = []
+    for val in text_val:
+        result.append(re.sub('[!@#$%^&*()_+~`]', '', val))
+
+    return result
 
 search_log_len = len(search_log_df)
 view_log_len = len(view_log_df)
@@ -47,3 +47,6 @@ print(search_log_list)
 print(view_title_list)
 print(view_content_list)
 print(view_log_list)
+
+for i in view_content_list:
+    print(re.sub('[!@#$%^&*()_+~`]', '', i))

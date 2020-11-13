@@ -1,8 +1,8 @@
 import re
-import pandas as pd
 from DB_connect_setting import DB
 from DB_get_data import _user_skill, _user_search_log, _user_view_log
 from eunjeon import Mecab
+
 
 # Test Email
 email = "a@gmail.com"
@@ -38,6 +38,7 @@ view_title_list = regex(list(view_log_df["title"].iloc[view_log_len-6::1]))
 view_content_list = regex(list(view_log_df["post_content"].iloc[view_log_len-6::1]))
 view_log_list = regex(list(view_log_df["view_log"].iloc[view_log_len-6::1]))
 
+# 최신순을 기준으로 오름차순 정렬하기 위해서 reverse 적용
 search_log_list.reverse()
 view_title_list.reverse()
 view_content_list.reverse()

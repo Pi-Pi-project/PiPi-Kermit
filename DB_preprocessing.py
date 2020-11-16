@@ -6,6 +6,22 @@ from eunjeon import Mecab
 # Test Email
 email = "a@gmail.com"
 
+"""
+def preprocess(texts):
+    result = []
+    mecab = Mecab()
+    STOP_WORDS = ['의', '가', '이', '은', '들', '는', '좀', '잘', '걍', '과',
+                  '도', '를', '으로', '자', '에', '와', '한', '하다']
+
+    for text in texts:
+        tmp = mecab.morphs(str(re.sub(r'[^ㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z ]', '', text)).lower())
+
+        if tmp not in STOP_WORDS:
+            result.append(tmp)
+
+    return result
+"""
+
 # 특수문자 제거를 위한 정규 표현식
 def regex(texts):
     result = []

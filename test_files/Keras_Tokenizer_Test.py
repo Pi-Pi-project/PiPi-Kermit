@@ -13,3 +13,6 @@ one_hot_result = tokenizer.texts_to_matrix(samples, mode="binary")
 
 word_index = tokenizer.word_index
 print("Found %s unique tokens" % len(word_index))
+
+print("Sequence: %s" % sequences)
+print("One hot result: ", one_hot_result)

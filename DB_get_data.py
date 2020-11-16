@@ -30,3 +30,12 @@ def _user_view_log(email):
     user_view_log = pd.DataFrame(cursor.fetchall())
 
     return user_view_log
+
+
+# # Test Email
+# email = "a@gmail.com"
+#
+# print("========================[Test Output]========================")
+# print(_user_skill(email))
+# print(_user_view_log(email))
+# print(_user_search_log(email))

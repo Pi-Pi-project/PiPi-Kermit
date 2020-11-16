@@ -29,6 +29,14 @@ def morphs_stopword(texts):
 
     return result
 
+def lower(texts):
+    result = []
+
+    for text in texts:
+        result.append(str(text).lower())
+
+    return result
+
 def processed_data(email):
     try:
         # Get Data from MySQL DB
@@ -45,12 +53,12 @@ def processed_data(email):
 
     # Convert DataFrame to list
     # 최신의 로그 5개를 추출
-    skill_list = list(skill_df["user_skill"])
-    search_log_list = list(search_log_df["search_log"].iloc[search_log_len - 6::1])
-    view_log_list = list(view_log_df["view_log"].iloc[view_log_len - 6::1])
+    skill_list = lower(skill_df["user_skill"])
+    search_log_list = lower(search_log_df["search_log"].iloc[search_log_len - 5::1])
+    view_log_list = lower(view_log_df["view_log"].iloc[view_log_len - 5::1])
     # 분석 시 오류를 줄이고 정확도를 늘리기 위해 추가적인 전처리 진행
-    view_title_list = morphs_stopword(regex(view_log_df["title"].iloc[view_log_len - 6::1]))
-    view_content_list = morphs_stopword(regex(view_log_df["post_content"].iloc[view_log_len - 6::1]))
+    view_title_list = morphs_stopword(regex(view_log_df["title"].iloc[view_log_len - 5::1]))
+    view_content_list = morphs_stopword(regex(view_log_df["post_content"].iloc[view_log_len - 5::1]))
 
     # 최신순을 기준으로 오름차순 정렬하기 위해서 reverse 적용
     search_log_list.reverse()

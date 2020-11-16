@@ -39,3 +39,6 @@ def _user_view_log(email):
 # print(_user_skill(email))
 # print(_user_view_log(email))
 # print(_user_search_log(email))
+#
+# print(_user_view_log(email)["post_content"].iloc[0:5])
+# print(_user_search_log(email))

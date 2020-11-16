@@ -64,17 +64,14 @@ def processed_data(email):
         # Close the connection from the MySQL DB
         DB.close()
 
-    search_log_len = len(search_log_df)
-    view_log_len = len(view_log_df)
-
     # Convert DataFrame to list
     # 최신의 로그 5개를 추출
     skill_list = lower(skill_df["user_skill"])
-    search_log_list = lower(search_log_df["search_log"].iloc[search_log_len - 5::1])
-    view_log_list = lower(view_log_df["view_log"].iloc[view_log_len - 5::1])
+    search_log_list = lower(search_log_df["search_log"].iloc[0:5])
+    view_log_list = lower(view_log_df["view_log"].iloc[0:5])
     # 분석 시 오류를 줄이고 정확도를 늘리기 위해 추가적인 전처리 진행
-    view_title_list = morphs_stopword(regex(view_log_df["title"].iloc[view_log_len - 5::1]))
-    view_content_list = morphs_stopword(regex(view_log_df["post_content"].iloc[view_log_len - 5::1]))
+    view_title_list = morphs_stopword(regex(view_log_df["title"].iloc[0:5]))
+    view_content_list = morphs_stopword(regex(view_log_df["post_content"].iloc[0:5]))
 
     # 최신순을 기준으로 오름차순 정렬하기 위해서 reverse 적용
     search_log_list.reverse()

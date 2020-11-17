@@ -31,20 +31,7 @@ def _user_view_log(email):
 
     return user_view_log
 
-
-# # Test Email
-email = "a@gmail.com"
-#
-# print("========================[Test Output]========================")
-# print(_user_skill(email))
-# print(_user_view_log(email))
-# print(_user_search_log(email))
-#
-# print(_user_view_log(email)["post_content"].iloc[0:5])
-# print(_user_search_log(email))
-
-test = _user_search_log(email)
-a = list(test["search_log"].iloc[0:5])
-b = test["search_log"].iloc[5:0:-1]
-print(a)
-print(b)
+# email = "a@gmail.com"
+# US = _user_skill(email)
+# USL= _user_search_log(email)
+# UVL = _user_view_log(email)

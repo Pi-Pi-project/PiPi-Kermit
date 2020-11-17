@@ -1,7 +1,6 @@
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from DB_preprocessing import processed_data
-from DB_get_data import _user_view_log
 
 email = "a@gmail.com"
 

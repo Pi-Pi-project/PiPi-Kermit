@@ -33,13 +33,14 @@ def processed_data(email):
 
     # 최신의 로그 5개를 추출
     # 분석 시 오류를 줄이고 정확도를 늘리기 위해 추가적인 전처리 진행
-    skill_list = skill_df["user_skill"]
+    skill_list = list(skill_df["user_skill"])
 
-    search_log_list = search_log_df["search_log"].iloc[search_len-5:]
+    search_log_list = list(search_log_df["search_log"].iloc[search_len-5:])
 
-    view_title_list = morphs_stopword(view_log_df["title"].iloc[view_len-5:])
-    view_content_list = morphs_stopword(view_log_df["post_content"].iloc[view_len-5:])
-    view_log_list = view_log_df["view_log"].iloc[view_len-5:]
+    # 리스트 속에 존재하는 리스트를 한 개의 리스트로 합치기
+    view_title_list = sum(morphs_stopword(view_log_df["title"].iloc[view_len-5:]), [])
+    view_content_list = sum(morphs_stopword(view_log_df["post_content"].iloc[view_len-5:]), [])
+    view_log_list = list(view_log_df["view_log"].iloc[view_len-5:])
 
     return skill_list, search_log_list, view_title_list, view_content_list, view_log_list
 
@@ -47,13 +48,13 @@ def processed_data(email):
 email = "a@gmail.com"
 
 # Test Output
-print("========================[Test Output]========================")
-SL, SLL, VTL, VCL, VLL = processed_data(email)
-print("[SL]\n", SL, "\n")
-print("[SLL]\n", SLL, "\n")
-print("[VTL]\n", VTL, "\n")
-print("[VCL]\n", VCL, "\n")
-print("[VLL]\n", VLL, "\n")
+# print("========================[Test Output]========================")
+# SL, SLL, VTL, VCL, VLL = processed_data(email)
+# print("[SL]\n", SL, "\n")
+# print("[SLL]\n", SLL, "\n")
+# print("[VTL]\n", VTL, "\n")
+# print("[VCL]\n", VCL, "\n")
+# print("[VLL]\n", VLL, "\n")
 
 """
 tensorflow.keras.preprocessing.Tokenizer을 이용하여 특수 문자 제거 및 소문자화가 가능하여

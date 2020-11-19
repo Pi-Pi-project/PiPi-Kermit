@@ -17,7 +17,11 @@ def embedding(input_data, label):
         tokenizer.fit_on_texts(data)
         dataset.extend(data)
 
+    # print(dataset)
+    print("Length of dataset:", len(dataset))
     encoded = tokenizer.texts_to_sequences(dataset)
+    print(encoded)
+    print("Length of encoded: ", len(encoded))
     vocab_size = len(tokenizer.word_index) + 1
     max_len = max(len(length) for length in encoded)
 
@@ -25,19 +29,21 @@ def embedding(input_data, label):
     X = pad_sequences(encoded, maxlen=max_len, padding="post")
     Y = np.array(label)
 
-    return X, Y, vocab_size
+    return X, Y, vocab_size, max_len
 
-X, Y, vocab_size = embedding([SL, SLL, VTL, VCL, VLL], y_train)
+X, Y, vocab_size, max_len = embedding([SL, SLL, VTL, VCL, VLL], y_train)
 
-"""
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Embedding, Flatten
+print(X.shape)
+print(Y.shape)
+print(vocab_size)
 
-model = Sequential()
-model.add(Embedding(vocab_size, 4, input_length=max_len))
-model.add(Flatten())
-model.add(Dense(1, activation="sigmoid"))
-
-model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["acc"])
-model.fit(x_train, y_train, epochs=100, verbose=2)
-"""
+# from tensorflow.keras.models import Sequential
+# from tensorflow.keras.layers import Dense, Embedding, Flatten
+#
+# model = Sequential()
+# model.add(Embedding(vocab_size, 5, input_length=max_len))
+# model.add(Flatten())
+# model.add(Dense(1, activation="sigmoid"))
+#
+# model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["acc"])
+# model.fit(X, Y, epochs=100, verbose=2)

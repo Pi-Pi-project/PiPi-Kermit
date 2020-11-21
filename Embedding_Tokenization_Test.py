@@ -8,7 +8,7 @@ sentence = "20일 0시 기준 코로나19 신규 확진자는 363명. 사흘 연
 print("품사 태깅 - PoS\n" + str(mecab.pos(sentence)) + "\n")
 print("품사 태깅 - Morphs\n" + str(mecab.morphs(sentence)) + "\n")
 print("품사 태깅 - Nouns\n" + str(mecab.nouns(sentence)) + "\n")
-print("======================================================")
+print("============================================================================================================")
 
 # 2. 불용어 제거(Stopwords Removing)
 def text_preprocessing(text, tokenizer):

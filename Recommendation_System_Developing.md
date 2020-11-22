@@ -14,3 +14,28 @@ Source/Reference: [당근마켓 - 딥러닝 개인화 추천](https://medium.com
   - post_content
   - view_log
 
+## Models
+
+### compile option
+
+- optimizer=RMSprop
+- loss=categorical_crossentropy
+- callback=RediceLROnPlateau, EarlyStopping, ModelCheckpoint
+
+### Model1
+
+- Embedding
+- Conv1D - relu, padding=same
+- GlobalMaxPooling1D
+- Dense - softmax
+
+### Model2
+
+- Embedding
+- Conv1D - relu
+- MaxPooling
+- Dropout
+- Conv1D - relu
+- GlobalMaxPooling1D
+- BatchNormalization
+- Dense - softmax

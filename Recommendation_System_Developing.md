@@ -39,3 +39,14 @@ Source/Reference: [당근마켓 - 딥러닝 개인화 추천](https://medium.com
 - GlobalMaxPooling1D
 - BatchNormalization
 - Dense - softmax
+
+### Model3
+
+- Embedding
+- Conv1D - relu
+- Conv1D - relu
+- Conv1D - relu
+- MaxPooling1D
+- LSTM
+- Dropout
+- Dense - softmax

@@ -50,3 +50,12 @@ Source/Reference: [당근마켓 - 딥러닝 개인화 추천](https://medium.com
 - LSTM
 - Dropout
 - Dense - softmax
+
+### Model4
+
+- Embedding
+- Dropout
+- Conv1D - relu
+- MaxPooling
+- LSTM
+- Dense - softmax

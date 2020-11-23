@@ -7,9 +7,15 @@ def regex(input_data):
     result = []
 
     for text in input_data:
-        text = re.sub(r'[^ㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z ]', '', text)
-        text = text.lower()
-        result.append(text)
+        result.append(re.sub(r'[^ㄱ-ㅎㅏ-ㅣ가-힣0-9a-zA-Z ]', '', text))
+
+    return result
+
+def lower(input_data):
+    result = []
+
+    for text in input_data:
+        result.append(text.lower())
 
     return result
 

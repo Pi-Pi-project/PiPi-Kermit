@@ -25,7 +25,7 @@ def _user_search_log(email):
     return user_search_log
 
 def _user_view_log(email):
-    sql_query = "select user.email as 'email', post.id as 'post_id', post.title as 'title', post_skillset.skill as 'post_skillset', post.content as 'post_content', user_view_log.log as 'view_log'" \
+    sql_query = "select user.email as 'email', post.id as 'id', post.title as 'title', post_skillset.skill as 'skillset', post.content as 'content', user_view_log.log as 'view_log'" \
                 "from user, post, post_skillset, user_view_log where user.email=" \
                 + "'" + str(email) + "' " + "and user.email=user_view_log.user_email and user_view_log.post_id=post.id and post.id=post_skillset.post_id"
 
@@ -41,4 +41,5 @@ def _user_view_log(email):
 
 # print(US)
 # print(USL)
-# print(UVL)
+# print(UVL.skillset)
+# print(UVL.view_log)

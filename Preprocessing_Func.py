@@ -20,11 +20,17 @@ def lower(input_data):
     return result
 
 def nouns(input_data):
+    stopwords = ['의', '가', '이', '은', '들', '는', '좀', '잘', '걍', '과',
+                  '도', '를', '으로', '자', '에', '와', '한', '하다']
     result = []
     mecab = Mecab()
 
     for text in input_data:
-        result.append(mecab.nouns(text))
+        token = mecab.nouns(text)
+        token = [t for t in token if t not in stopwords]
+        token = [t for t in token if len(token) > 1]
+        token = " ".join(token)
+        result.append(token)
 
     return result
 

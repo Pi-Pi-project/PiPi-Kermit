@@ -5,14 +5,14 @@ Source/Reference: [당근마켓 - 딥러닝 개인화 추천](https://medium.com
 ## Symbolic Variables
 
 - Recommender Systems
-  - post_id
+  - post_id - need to shuffle
   - user_email
 - Categorical Descriptors
   - user_skill
-  - search_log
-  - post_title
-  - post_content
-  - view_log
+  - search_log - need to shuffle
+  - post_title - need to shuffle
+  - post_content - need to shuffle
+  - view_log - need to shuffle
 
 ## Models
 

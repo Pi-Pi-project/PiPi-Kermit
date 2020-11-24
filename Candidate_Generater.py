@@ -1,4 +1,5 @@
 import re
+import pandas as pd
 import tensorflow as tf
 from eunjeon import Mecab
 from DB_connect_setting import DB
@@ -65,10 +66,12 @@ UVL: User_View_Log - id, title, skillset, content, view_log
 # Test Email
 email = "a@gmail.com"
 US, USL, UVL, OVL = get_data(email)
-UVL["label"] = 1
-OVL["label"] = 0
 
 tokenizer = Tokenizer()
+
+USL = USL[len(USL)-100:]
+UVL = UVL[len(UVL)-100:]
+OVL = OVL[len(OVL)-100:]
 
 US.user_skill = lower(US.user_skill)
 USL.search_log = lower(USL.search_log)
@@ -76,29 +79,32 @@ UVL.title = nouns(regex(lower(UVL.title)))
 UVL.skillset = lower(UVL.skillset)
 UVL.content = nouns(regex(lower(UVL.content)))
 UVL.view_log = lower(UVL.view_log)
+OVL.title = nouns(regex(lower(OVL.title)))
+OVL.skillset = lower(OVL.title)
+OVL.content = nouns(regex(lower(OVL.content)))
+OVL.view_log = lower(OVL.view_log)
 
-tokenizer.fit_on_texts(list(US.user_skill))
-tokenizer.fit_on_texts(list(USL.search_log))
-tokenizer.fit_on_texts(list(UVL.title))
-tokenizer.fit_on_texts(list(UVL.skillset))
-tokenizer.fit_on_texts(list(UVL.content))
-tokenizer.fit_on_texts(list(UVL.view_log))
+train_data = pd.concat([UVL, OVL]).sample(frac=1)
+print(train_data)
 
-print(UVL.head())
-
-threshold = 10
-total_cnt = len(tokenizer.word_index)
-rare_cnt = 0
-total_freq = 0
-rare_freq = 0
-
-for key, value in tokenizer.word_counts.items():
-    total_freq = total_freq + value
-
-    if(value < threshold):
-        rare_cnt = rare_cnt + 1
-        rare_freq = rare_freq + value
-
-vocab_size = total_cnt - rare_cnt + 1
-
-print(vocab_size)
+# tokenizer.fit_on_texts(list(US.user_skill))
+# tokenizer.fit_on_texts(list(train_USL.search_log))
+# tokenizer.fit_on_texts(list(train_UVL.title))
+# tokenizer.fit_on_texts(list(train_UVL.skillset))
+# tokenizer.fit_on_texts(list(train_UVL.content))
+# tokenizer.fit_on_texts(list(train_UVL.view_log))
+#
+# threshold = 10
+# total_cnt = len(tokenizer.word_index)
+# rare_cnt = 0
+# total_freq = 0
+# rare_freq = 0
+#
+# for key, value in tokenizer.word_counts.items():
+#     total_freq = total_freq + value
+#
+#     if(value < threshold):
+#         rare_cnt = rare_cnt + 1
+#         rare_freq = rare_freq + value
+#
+# vocab_size = total_cnt - rare_cnt + 1

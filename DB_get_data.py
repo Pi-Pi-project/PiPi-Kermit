@@ -34,6 +34,16 @@ def _user_view_log(email):
 
     return user_view_log
 
+def _other_view_log(email):
+    sql_query = sql_query = "select user.email as 'email', post.id as 'id', post.title as 'title', post_skillset.skill as 'skillset', post.content as 'content', user_view_log.log as 'view_log'" \
+                "from user, post, post_skillset, user_view_log where user.email!=" \
+                + "'" + str(email) + "' " + "and user.email=user_view_log.user_email and user_view_log.post_id=post.id and post.id=post_skillset.post_id"
+
+    cursor.execute(sql_query)
+    other_view_log = pd.DataFrame(cursor.fetchall())
+
+    return other_view_log
+
 # email = "a@gmail.com"
 # US = _user_skill(email)
 # USL= _user_search_log(email)

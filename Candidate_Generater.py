@@ -63,9 +63,8 @@ email = "a@gmail.com"
 # US: User_Skillset - user_skill
 # USL: User_Search_Log - search_log
 # UVL: User_View_Log - id, title, skillset, content, view_log
+# OVL: Other_USer_Log - id, title, skillset, content, view_log
 US, USL, UVL, OVL = get_data(email)
-
-print(len(USL), len(UVL), len(OVL))
 
 US.user_skill = lower(US.user_skill)
 USL.search_log = lower(USL.search_log)
@@ -87,13 +86,15 @@ train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
 train_X = []
 train_Y = train_dataset["label"]
 
-print(train_X_raw.head())
+# print(train_X_raw.head())
 
 for index in list(train_X_raw.columns):
     train_X.append(list(train_X_raw[index]))
 
-vocab_size = 5
-tokenizer = Tokenizer(num_words=vocab_size+2, oov_token='OOV')
+print(train_X)
 
-for data in train_X[2:5]:
-    tokenizer.fit_on_texts(data)
+# vocab_size = 5
+# tokenizer = Tokenizer(num_words=vocab_size+2, oov_token='OOV')
+#
+# for data in train_X[2:5]:
+#     tokenizer.fit_on_texts(data)

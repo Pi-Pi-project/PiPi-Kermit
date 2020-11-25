@@ -65,11 +65,10 @@ email = "a@gmail.com"
 # UVL: User_View_Log - id, title, skillset, content, view_log
 US, USL, UVL, OVL = get_data(email)
 
-tokenizer = Tokenizer()
+print(len(USL), len(UVL), len(OVL))
 
-USL = USL[len(USL)-100:]
-UVL = UVL[len(UVL)-100:]
-OVL = OVL[len(OVL)-100:]
+vocab_size = 5
+tokenizer = Tokenizer(num_words=vocab_size+2, oov_token='OOV')
 
 US.user_skill = lower(US.user_skill)
 USL.search_log = lower(USL.search_log)
@@ -82,31 +81,23 @@ OVL.skillset = lower(OVL.title)
 OVL.content = nouns(regex(lower(OVL.content)))
 OVL.view_log = lower(OVL.view_log)
 
+# print(UVL.head())
+# print(OVL.head())
+
 # Train dataset with label
 train_dataset = pd.concat([UVL, OVL]).sample(frac=1).reset_index(drop=True)
 train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
-train_Y = train_dataset["label"]
-print(train_X_raw.head())
-print(train_Y.head())
+train_X = []
 
-# tokenizer.fit_on_texts(list(US.user_skill))
-# tokenizer.fit_on_texts(list(train_USL.search_log))
-# tokenizer.fit_on_texts(list(train_UVL.title))
-# tokenizer.fit_on_texts(list(train_UVL.skillset))
-# tokenizer.fit_on_texts(list(train_UVL.content))
-# tokenizer.fit_on_texts(list(train_UVL.view_log))
-#
-# threshold = 10
-# total_cnt = len(tokenizer.word_index)
-# rare_cnt = 0
-# total_freq = 0
-# rare_freq = 0
-#
-# for key, value in tokenizer.word_counts.items():
-#     total_freq = total_freq + value
-#
-#     if(value < threshold):
-#         rare_cnt = rare_cnt + 1
-#         rare_freq = rare_freq + value
-#
-# vocab_size = total_cnt - rare_cnt + 1
+print(train_X_raw.head())
+
+for index in list(train_X_raw.columns):
+    train_X.append(list(train_X_raw[index]))
+
+train_Y = train_dataset["label"]
+
+for data in train_X[2:5]:
+    tokenizer.fit_on_texts(data)
+
+# print(Embedding(tokenizer.texts_to_sequences(train_X[1])))
+# print(train_X[1])

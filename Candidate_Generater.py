@@ -12,7 +12,7 @@ from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint,  ReduceLR
 from tensorflow.keras.regularizers import *
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.optimizers import Adam, RMSprop
-tf.random.set_seed(777)
+# tf.random.set_seed(777)
 
 def regex(input_data):
     result = []
@@ -57,14 +57,12 @@ def get_data(email):
 
     return skill_df, search_log_df, view_log_df, other_view_log_df
 
-"""
-US: User_Skillset - user_skill
-USL: User_Search_Log - search_log
-UVL: User_View_Log - id, title, skillset, content, view_log
-"""
-
 # Test Email
 email = "a@gmail.com"
+
+# US: User_Skillset - user_skill
+# USL: User_Search_Log - search_log
+# UVL: User_View_Log - id, title, skillset, content, view_log
 US, USL, UVL, OVL = get_data(email)
 
 tokenizer = Tokenizer()
@@ -84,8 +82,12 @@ OVL.skillset = lower(OVL.title)
 OVL.content = nouns(regex(lower(OVL.content)))
 OVL.view_log = lower(OVL.view_log)
 
-train_data = pd.concat([UVL, OVL]).sample(frac=1)
-print(train_data)
+# Train dataset with label
+train_dataset = pd.concat([UVL, OVL]).sample(frac=1).reset_index(drop=True)
+train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
+train_Y = train_dataset["label"]
+print(train_X_raw.head())
+print(train_Y.head())
 
 # tokenizer.fit_on_texts(list(US.user_skill))
 # tokenizer.fit_on_texts(list(train_USL.search_log))

@@ -67,9 +67,6 @@ US, USL, UVL, OVL = get_data(email)
 
 print(len(USL), len(UVL), len(OVL))
 
-vocab_size = 5
-tokenizer = Tokenizer(num_words=vocab_size+2, oov_token='OOV')
-
 US.user_skill = lower(US.user_skill)
 USL.search_log = lower(USL.search_log)
 UVL.title = nouns(regex(lower(UVL.title)))
@@ -88,16 +85,15 @@ OVL.view_log = lower(OVL.view_log)
 train_dataset = pd.concat([UVL, OVL]).sample(frac=1).reset_index(drop=True)
 train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
 train_X = []
+train_Y = train_dataset["label"]
 
 print(train_X_raw.head())
 
 for index in list(train_X_raw.columns):
     train_X.append(list(train_X_raw[index]))
 
-train_Y = train_dataset["label"]
+vocab_size = 5
+tokenizer = Tokenizer(num_words=vocab_size+2, oov_token='OOV')
 
 for data in train_X[2:5]:
     tokenizer.fit_on_texts(data)
-
-# print(Embedding(tokenizer.texts_to_sequences(train_X[1])))
-# print(train_X[1])

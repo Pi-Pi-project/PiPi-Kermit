@@ -1,4 +1,5 @@
 import re
+import gensim
 import pandas as pd
 import tensorflow as tf
 from eunjeon import Mecab
@@ -77,24 +78,18 @@ OVL.skillset = lower(OVL.title)
 OVL.content = nouns(regex(lower(OVL.content)))
 OVL.view_log = lower(OVL.view_log)
 
-# print(UVL.head())
-# print(OVL.head())
-
 # Train dataset with label
-train_dataset = pd.concat([UVL, OVL]).sample(frac=1).reset_index(drop=True)
+train_dataset = pd.concat([US, USL, UVL, OVL]).sample(frac=1).reset_index(drop=True)
 train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
-train_X = []
 train_Y = train_dataset["label"]
 
-# print(train_X_raw.head())
+print(train_dataset)
 
-for index in list(train_X_raw.columns):
-    train_X.append(list(train_X_raw[index]))
-
-print(train_X)
-
+# train_X = []
+#
 # vocab_size = 5
 # tokenizer = Tokenizer(num_words=vocab_size+2, oov_token='OOV')
 #
-# for data in train_X[2:5]:
-#     tokenizer.fit_on_texts(data)
+# for col in train_X_raw.columns:
+#     print(list(train_X_raw[col]))
+#     tokenizer.fit_on_texts(list(str(train_X_raw[col])))

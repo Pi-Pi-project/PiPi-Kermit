@@ -59,17 +59,13 @@ def _other_view_log(email):
 
     return other_view_log
 
-# email = "a@gmail.com"
-# US = _user_skill(email)
-# USL= _user_search_log(email)
-# UVL = _user_view_log(email)
-# OVL = _other_view_log(email)
-#
-# print(US)
-# print(USL)
-# print(UVL)
-# print(OVL)
-#
-# test = "select user_skillset.skill as 'user_skill' from user, user_skillset where user.email='a@gmail.com' and user.email=user_skillset.user_email order by user_skillset.skill DESC LIMIT 20"
-# cursor.execute(test)
-# print(pd.DataFrame(cursor.fetchall()))
+def test(email):
+    US = _user_skill(email)
+    USL= _user_search_log(email)
+    UVL = _user_view_log(email)
+    OVL = _other_view_log(email)
+
+    print("[US]\n", US, "\n")
+    print("[USL]\n", USL, "\n")
+    print("[UVL]\n", UVL, "\n")
+    print("[OVL]\n", OVL, "\n")

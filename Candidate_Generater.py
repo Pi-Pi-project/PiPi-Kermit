@@ -79,11 +79,10 @@ OVL.content = nouns(regex(lower(OVL.content)))
 OVL.view_log = lower(OVL.view_log)
 
 # Train dataset with label
-train_dataset = pd.concat([US, USL, UVL, OVL]).sample(frac=1).reset_index(drop=True)
+
+train_dataset = pd.concat([US, USL, UVL, OVL], axis=1, ignore_index=True)
 train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
 train_Y = train_dataset["label"]
-
-print(train_dataset)
 
 # train_X = []
 #

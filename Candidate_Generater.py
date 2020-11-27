@@ -15,6 +15,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 from tensorflow.keras.optimizers import Adam, RMSprop
 # tf.random.set_seed(777)
 
+# Preprocessing Functions
 def regex(input_data):
     result = []
 
@@ -46,6 +47,7 @@ def nouns(input_data):
 
     return result
 
+# Get DataFrame from PiPi MySQL DB with PyMySQL
 def get_data(email):
     try:
         skill_df = _user_skill(email)
@@ -78,9 +80,11 @@ OVL.skillset = lower(OVL.title)
 OVL.content = nouns(regex(lower(OVL.content)))
 OVL.view_log = lower(OVL.view_log)
 
-# Train dataset with label
-
-train_dataset = pd.concat([US, USL, UVL, OVL], axis=1, ignore_index=True)
+train_data_A = pd.concat([US, USL], axis=1, ignore_index=True)
+train_data_B = pd.concat([UVL, OVL], ignore_index=True)
+train_dataset = pd.concat([train_data_A, train_data_B], axis=1, ignore_index=True).sample(frac=1).reset_index(drop=True)
+train_dataset.columns = ["user_skill", "search_log", "id", "title", "skillset", "content", "view_log", "label"]
+train_dataset = train_dataset.fillna("")
 train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
 train_Y = train_dataset["label"]
 

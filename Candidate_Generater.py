@@ -71,10 +71,12 @@ US, USL, UVL, OVL = get_data(email)
 
 US.user_skill = lower(US.user_skill)
 USL.search_log = lower(USL.search_log)
+UVL.id = str(list(UVL.id))
 UVL.title = nouns(regex(lower(UVL.title)))
 UVL.skillset = lower(UVL.skillset)
 UVL.content = nouns(regex(lower(UVL.content)))
 UVL.view_log = lower(UVL.view_log)
+OVL.id = str(list(OVL.id))
 OVL.title = nouns(regex(lower(OVL.title)))
 OVL.skillset = lower(OVL.title)
 OVL.content = nouns(regex(lower(OVL.content)))
@@ -88,11 +90,19 @@ train_dataset = train_dataset.fillna("")
 train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
 train_Y = train_dataset["label"]
 
-# train_X = []
-#
-# vocab_size = 5
-# tokenizer = Tokenizer(num_words=vocab_size+2, oov_token='OOV')
-#
-# for col in train_X_raw.columns:
-#     print(list(train_X_raw[col]))
-#     tokenizer.fit_on_texts(list(str(train_X_raw[col])))
+train_X = []
+
+tokenizer = Tokenizer(oov_token="")
+
+for col in train_X_raw.columns:
+    tokenizer.fit_on_texts(list(train_X_raw[col]))
+    train_X.append(tokenizer.texts_to_sequences(str(list(train_X_raw[col]))))
+
+"""
+Embedding issue
+# train_X = pad_sequences(train_X, maxlen=10)
+"""
+print(tokenizer.word_index)
+print(tokenizer.word_counts)
+print(tokenizer.word_docs)
+print(train_X)

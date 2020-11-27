@@ -96,12 +96,10 @@ tokenizer = Tokenizer(oov_token="")
 
 for col in train_X_raw.columns:
     tokenizer.fit_on_texts(list(train_X_raw[col]))
-    train_X.append(tokenizer.texts_to_sequences(str(list(train_X_raw[col]))))
+    train_X.append(tokenizer.texts_to_sequences(list(train_X_raw[col])))
 
-"""
-Embedding issue
-# train_X = pad_sequences(train_X, maxlen=10)
-"""
+# Fixed Embedding issue
+train_X = pad_sequences(train_X, maxlen=10)
 print(tokenizer.word_index)
 print(tokenizer.word_counts)
 print(tokenizer.word_docs)

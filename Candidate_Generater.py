@@ -98,9 +98,10 @@ for col in train_X_raw.columns:
     tokenizer.fit_on_texts(list(train_X_raw[col]))
     train_X.append(tokenizer.texts_to_sequences(list(train_X_raw[col])))
 
-# Fixed Embedding issue
-train_X = pad_sequences(train_X, maxlen=10)
-print(tokenizer.word_index)
-print(tokenizer.word_counts)
-print(tokenizer.word_docs)
-print(train_X)
+# Convert duplex list to flatten list with sum
+train_X = pad_sequences(sum(train_X, []), maxlen=3)
+# train_X = pad_sequences(train_X, maxlen=3)
+# print(tokenizer.word_index)
+# print(tokenizer.word_counts)
+# print(tokenizer.word_docs)
+# print(train_X)

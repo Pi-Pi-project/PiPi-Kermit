@@ -8,7 +8,7 @@ Kermit is an AI model for recommendation system in PiPi project.
 
 Kermit은 "Kermit the Frog"에 출현하는 주인공 "Kermit"을 이용한 프로젝트 명입니다.
 
-![Kermit](Kermit.jpg)
+![Kermit](img/Kermit.jpg)
 
 (Source: [Wikipedia - Kermit the Frog](https://en.wikipedia.org/wiki/Kermit_the_Frog))
 

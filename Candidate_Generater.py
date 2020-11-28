@@ -1,18 +1,10 @@
 import re
 import gensim
 import pandas as pd
-import tensorflow as tf
 from eunjeon import Mecab
 from DB_connect_setting import DB
 from DB_get_data import _user_skill, _user_search_log, _user_view_log, _other_view_log
-from tensorflow.keras.preprocessing.text import Tokenizer
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import Sequential, load_model, Model
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint,  ReduceLROnPlateau
-from tensorflow.keras.regularizers import *
-from tensorflow.keras.preprocessing.sequence import pad_sequences
-from tensorflow.keras.optimizers import Adam, RMSprop
+
 # tf.random.set_seed(777)
 
 # Preprocessing Functions
@@ -87,10 +79,13 @@ train_data_B = pd.concat([UVL, OVL], ignore_index=True)
 train_dataset = pd.concat([train_data_A, train_data_B], axis=1, ignore_index=True).sample(frac=1).reset_index(drop=True)
 train_dataset.columns = ["user_skill", "search_log", "id", "title", "skillset", "content", "view_log", "label"]
 train_dataset = train_dataset.fillna("")
+
+train_X = []
 train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
 train_Y = train_dataset["label"]
 
-train_X = []
+from tensorflow.keras.preprocessing.text import Tokenizer
+from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 tokenizer = Tokenizer(oov_token="")
 
@@ -98,10 +93,29 @@ for col in train_X_raw.columns:
     tokenizer.fit_on_texts(list(train_X_raw[col]))
     train_X.append(tokenizer.texts_to_sequences(list(train_X_raw[col])))
 
+input_dim = len(tokenizer.word_index) + 1
+
 # Convert duplex list to flatten list with sum
-train_X = pad_sequences(sum(train_X, []), maxlen=3)
-# train_X = pad_sequences(train_X, maxlen=3)
-# print(tokenizer.word_index)
-# print(tokenizer.word_counts)
-# print(tokenizer.word_docs)
-# print(train_X)
+train_X = sum(train_X, [])
+max_len = max(len(length) for length in train_X)
+train_X = pad_sequences(train_X, maxlen=max_len)
+
+import tensorflow as tf
+from tensorflow.keras.layers import *
+from tensorflow.keras.regularizers import *
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.optimizers import Adam, RMSprop
+from tensorflow.keras.models import Sequential, load_model, Model
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint,  ReduceLROnPlateau
+
+model = Sequential()
+model.add(Embedding(input_dim, 32, input_length=max_len))
+model.add(Dense(32, activation="relu"))
+model.add(Dense(16, activation="relu"))
+model.add(Dense(8, activation="relu"))
+model.add(Dense(1, activation="softmax"))
+
+from plot_history import plot_model
+
+model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
+history = model.fit(train_X, train_Y, epoch=10, batch_size=64, validation_split=0.1)

@@ -7,12 +7,6 @@ cursor = DB.cursor(pymysql.cursors.DictCursor)
 def  _user_skill(email):
     sql_query = "select user_skillset.skill as 'user_skill' from user, user_skillset where user.email=" + "'" + str(email) + "'" + "and user.email=user_skillset.user_email order by user_skillset.skill DESC LIMIT 20"
 
-    """
-    sql_query = "select user.email as 'email', user_skillset.skill as 'user_skill'" \
-                "from user, user_skillset where user.email=" \
-                + "'" + str(email) + "' " + "and user.email=user_skillset.user_email"
-    """
-
     cursor.execute(sql_query)
     user_skill = pd.DataFrame(cursor.fetchall())
 
@@ -20,11 +14,6 @@ def  _user_skill(email):
 
 def _user_search_log(email):
     sql_query = "select user_search_log.log as 'search_log' from user, user_search_log where user.email=" + "'" + str(email) + "'" + "and user.email=user_search_log.user_email order by user_search_log.log DESC LIMIT 20"
-    """
-    sql_query = "select user.email as 'email', user_search_log.log as 'search_log'" \
-                "from user, user_search_log where user.email=" \
-                + "'" + str(email) + "' " + "and user.email=user_search_log.user_email"
-    """
 
     cursor.execute(sql_query)
     user_search_log = pd.DataFrame(cursor.fetchall())
@@ -33,11 +22,6 @@ def _user_search_log(email):
 
 def _user_view_log(email):
     sql_query = "select post.id as 'id', post.title as 'title', post_skillset.skill as 'skillset', post.content as 'content', user_view_log.log as 'view_log' from user, post, post_skillset, user_view_log where user.email=" + "'" + str(email) +  "'" + "and user.email=user_view_log.user_email and user_view_log.post_id=post.id and post.id=post_skillset.post_id order by post.id DESC LIMIT 20"
-    """
-    sql_query = "select user.email as 'email', post.id as 'id', post.title as 'title', post_skillset.skill as 'skillset', post.content as 'content', user_view_log.log as 'view_log'" \
-                "from user, post, post_skillset, user_view_log where user.email=" \
-                + "'" + str(email) + "' " + "and user.email=user_view_log.user_email and user_view_log.post_id=post.id and post.id=post_skillset.post_id"
-    """
 
     cursor.execute(sql_query)
     user_view_log = pd.DataFrame(cursor.fetchall())
@@ -47,11 +31,6 @@ def _user_view_log(email):
 
 def _other_view_log(email):
     sql_query = "select post.id as 'id', post.title as 'title', post_skillset.skill as 'skillset', post.content as 'content', user_view_log.log as 'view_log' from user, post, post_skillset, user_view_log where user.email!=" + "'" + str(email) + "'" + "and user.email=user_view_log.user_email and user_view_log.post_id=post.id and post.id=post_skillset.post_id order by post.id DESC LIMIT 20"
-    """
-    sql_query = sql_query = "select user.email as 'email', post.id as 'id', post.title as 'title', post_skillset.skill as 'skillset', post.content as 'content', user_view_log.log as 'view_log'" \
-                "from user, post, post_skillset, user_view_log where user.email!=" \
-                + "'" + str(email) + "' " + "and user.email=user_view_log.user_email and user_view_log.post_id=post.id and post.id=post_skillset.post_id"
-    """
 
     cursor.execute(sql_query)
     other_view_log = pd.DataFrame(cursor.fetchall())
@@ -59,13 +38,14 @@ def _other_view_log(email):
 
     return other_view_log
 
-def test(email):
-    US = _user_skill(email)
-    USL= _user_search_log(email)
-    UVL = _user_view_log(email)
-    OVL = _other_view_log(email)
-
-    print("[US]\n", US, "\n")
-    print("[USL]\n", USL, "\n")
-    print("[UVL]\n", UVL, "\n")
-    print("[OVL]\n", OVL, "\n")
+# PyMySQL Tester
+# def test(email):
+#     US = _user_skill(email)
+#     USL= _user_search_log(email)
+#     UVL = _user_view_log(email)
+#     OVL = _other_view_log(email)
+#
+#     print("[US]\n", US, "\n")
+#     print("[USL]\n", USL, "\n")
+#     print("[UVL]\n", UVL, "\n")
+#     print("[OVL]\n", OVL, "\n")

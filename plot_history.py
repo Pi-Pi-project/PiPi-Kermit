@@ -34,5 +34,5 @@ def plot_model(model_history, filename):
 
     axs[1].legend(["train", "validation"], loc="best")
 
-    fig.savefig(str(filename))
+    fig.savefig("./img/" + str(filename) + ".png")
     plt.show()

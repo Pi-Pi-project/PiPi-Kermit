@@ -1,11 +1,11 @@
+import os
 import re
-import gensim
+import numpy as np
 import pandas as pd
 from eunjeon import Mecab
 from DB_connect_setting import DB
+os.environ['TF_CPP_MIN_LOG_LEVEL']='3'
 from DB_get_data import _user_skill, _user_search_log, _user_view_log, _other_view_log
-
-# tf.random.set_seed(777)
 
 # Preprocessing Functions
 def regex(input_data):
@@ -78,11 +78,11 @@ train_data_A = pd.concat([US, USL], axis=1, ignore_index=True)
 train_data_B = pd.concat([UVL, OVL], ignore_index=True)
 train_dataset = pd.concat([train_data_A, train_data_B], axis=1, ignore_index=True).sample(frac=1).reset_index(drop=True)
 train_dataset.columns = ["user_skill", "search_log", "id", "title", "skillset", "content", "view_log", "label"]
-train_dataset = train_dataset.fillna("")
+train_dataset = train_dataset.fillna("undefined")
 
 train_X = []
 train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
-train_Y = train_dataset["label"]
+train_Y = list(train_dataset["label"])
 
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -118,4 +118,4 @@ model.add(Dense(1, activation="softmax"))
 from plot_history import plot_model
 
 model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
-history = model.fit(train_X, train_Y, epoch=10, batch_size=64, validation_split=0.1)
+history = model.fit(train_X, train_Y, epochs=10, batch_size=64, validation_split=0.1)

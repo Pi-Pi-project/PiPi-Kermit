@@ -82,7 +82,7 @@ train_dataset = train_dataset.fillna("undefined")
 
 train_X = []
 train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
-train_Y = list(train_dataset["label"])
+train_Y = np.array(train_dataset["label"])
 
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
@@ -98,7 +98,10 @@ input_dim = len(tokenizer.word_index) + 1
 # Convert duplex list to flatten list with sum
 train_X = sum(train_X, [])
 max_len = max(len(length) for length in train_X)
-train_X = pad_sequences(train_X, maxlen=max_len)
+train_X = np.array(pad_sequences(train_X, maxlen=max_len))
+
+# print(train_X.shape, train_Y.shape)
+# (280, 20) (40, )
 
 import tensorflow as tf
 from tensorflow.keras.layers import *

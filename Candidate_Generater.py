@@ -87,7 +87,7 @@ train_Y = np.array(train_dataset["label"])
 from tensorflow.keras.preprocessing.text import Tokenizer
 from tensorflow.keras.preprocessing.sequence import pad_sequences
 
-tokenizer = Tokenizer(oov_token="")
+tokenizer = Tokenizer(oov_token="undefined")
 
 for col in train_X_raw.columns:
     tokenizer.fit_on_texts(list(train_X_raw[col]))

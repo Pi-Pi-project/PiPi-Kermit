@@ -63,12 +63,12 @@ US, USL, UVL, OVL = get_data(email)
 
 US.user_skill = lower(US.user_skill)
 USL.search_log = lower(USL.search_log)
-UVL.id = str(list(UVL.id))
+UVL.id = list(map(str, UVL.id))
 UVL.title = nouns(regex(lower(UVL.title)))
 UVL.skillset = lower(UVL.skillset)
 UVL.content = nouns(regex(lower(UVL.content)))
 UVL.view_log = lower(UVL.view_log)
-OVL.id = str(list(OVL.id))
+OVL.id = list(map(str, OVL.id))
 OVL.title = nouns(regex(lower(OVL.title)))
 OVL.skillset = lower(OVL.title)
 OVL.content = nouns(regex(lower(OVL.content)))
@@ -98,27 +98,24 @@ input_dim = len(tokenizer.word_index) + 1
 # Convert duplex list to flatten list with sum
 train_X = sum(train_X, [])
 max_len = max(len(length) for length in train_X)
-train_X = np.array(pad_sequences(train_X, maxlen=max_len))
+train_X = pad_sequences(train_X, maxlen=max_len)
 
-# print(train_X.shape, train_Y.shape)
-# (280, 20) (40, )
-
-import tensorflow as tf
-from tensorflow.keras.layers import *
-from tensorflow.keras.regularizers import *
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.optimizers import Adam, RMSprop
-from tensorflow.keras.models import Sequential, load_model, Model
-from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint,  ReduceLROnPlateau
-
-model = Sequential()
-model.add(Embedding(input_dim, 32, input_length=max_len))
-model.add(Dense(32, activation="relu"))
-model.add(Dense(16, activation="relu"))
-model.add(Dense(8, activation="relu"))
-model.add(Dense(1, activation="softmax"))
-
-from plot_history import plot_model
-
-model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
-history = model.fit(train_X, train_Y, epochs=10, batch_size=64, validation_split=0.1)
+# import tensorflow as tf
+# from tensorflow.keras.layers import *
+# from tensorflow.keras.regularizers import *
+# from tensorflow.keras.utils import to_categorical
+# from tensorflow.keras.optimizers import Adam, RMSprop
+# from tensorflow.keras.models import Sequential, load_model, Model
+# from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint,  ReduceLROnPlateau
+#
+# model = Sequential()
+# model.add(Embedding(input_dim, 32, input_length=max_len))
+# model.add(Dense(32, activation="relu"))
+# model.add(Dense(16, activation="relu"))
+# model.add(Dense(8, activation="relu"))
+# model.add(Dense(1, activation="softmax"))
+#
+# from plot_history import plot_model
+#
+# model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
+# history = model.fit(train_X, train_Y, epochs=10, batch_size=64, validation_split=0.1)

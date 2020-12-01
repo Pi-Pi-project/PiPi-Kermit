@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from eunjeon import Mecab
 from DB_connect_setting import DB
-os.environ['TF_CPP_MIN_LOG_LEVEL']='3'
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 from DB_get_data import _user_skill, _user_search_log, _user_view_log, _other_view_log
 
 # Preprocessing Functions
@@ -80,7 +80,7 @@ train_dataset = pd.concat([train_data_A, train_data_B], axis=1, ignore_index=Tru
 train_dataset.columns = ["user_skill", "search_log", "id", "title", "skillset", "content", "view_log", "label"]
 train_dataset = train_dataset.fillna("undefined")
 
-train_X = []
+train_X_token = []
 train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
 train_Y = np.array(train_dataset["label"])
 
@@ -89,16 +89,19 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 tokenizer = Tokenizer(oov_token="undefined")
 
-for col in train_X_raw.columns:
-    tokenizer.fit_on_texts(list(train_X_raw[col]))
-    train_X.append(tokenizer.texts_to_sequences(list(train_X_raw[col])))
+for idx in range(len(train_X_raw)):
+    loc = list(train_X_raw.loc[idx])
+    tokenizer.fit_on_texts(loc)
+    train_X_token.append(list(tokenizer.texts_to_sequences(loc)))
+    # print(tokenizer.texts_to_sequences(loc))
 
-input_dim = len(tokenizer.word_index) + 1
+print(train_X_token)
+print(sum(train_X_token[0], [])) # 이게 되누
+# [4, 4, 5, 2, 3, 2, 3, 2, 3, 6]
 
-# Convert duplex list to flatten list with sum
-train_X = sum(train_X, [])
-max_len = max(len(length) for length in train_X)
-train_X = pad_sequences(train_X, maxlen=max_len)
+# input_dim = len(tokenizer.word_index) + 1
+# max_len = max(len(length) for length in train_X_token)
+# train_X = pad_sequences(train_X_token, maxlen=40)
 
 # import tensorflow as tf
 # from tensorflow.keras.layers import *
@@ -109,13 +112,16 @@ train_X = pad_sequences(train_X, maxlen=max_len)
 # from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint,  ReduceLROnPlateau
 #
 # model = Sequential()
-# model.add(Embedding(input_dim, 32, input_length=max_len))
+# model.add(Embedding(input_dim, 64, input_length=max_len))
+# model.add(Flatten())
 # model.add(Dense(32, activation="relu"))
 # model.add(Dense(16, activation="relu"))
 # model.add(Dense(8, activation="relu"))
-# model.add(Dense(1, activation="softmax"))
+# model.add(Dense(2, activation="softmax"))
 #
 # from plot_history import plot_model
 #
 # model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 # history = model.fit(train_X, train_Y, epochs=10, batch_size=64, validation_split=0.1)
+#
+# plot_model(history)

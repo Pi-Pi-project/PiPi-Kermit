@@ -118,11 +118,11 @@ model.add(Flatten())
 model.add(Dense(32, activation="relu"))
 model.add(Dense(16, activation="relu"))
 model.add(Dense(8, activation="relu"))
-model.add(Dense(2, activation="softmax"))
+model.add(Dense(1, activation="sigmoid"))
 
 from plot_history import plot_model
 
 model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["accuracy"])
-history = model.fit(train_X, train_Y, epochs=10, batch_size=64, validation_split=0.1)
+history = model.fit(train_X, train_Y, epochs=100, batch_size=64, validation_split=0.1)
 
-plot_model(history, "Adam")
+plot_model(history, "RMSprop")

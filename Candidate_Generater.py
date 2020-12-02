@@ -80,6 +80,8 @@ train_dataset = pd.concat([train_data_A, train_data_B], axis=1, ignore_index=Tru
 train_dataset.columns = ["user_skill", "search_log", "id", "title", "skillset", "content", "view_log", "label"]
 train_dataset = train_dataset.fillna("undefined")
 
+train_X = []
+train_X_sum = []
 train_X_token = []
 train_X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
 train_Y = np.array(train_dataset["label"])
@@ -93,35 +95,34 @@ for idx in range(len(train_X_raw)):
     loc = list(train_X_raw.loc[idx])
     tokenizer.fit_on_texts(loc)
     train_X_token.append(list(tokenizer.texts_to_sequences(loc)))
-    # print(tokenizer.texts_to_sequences(loc))
 
-print(train_X_token)
-print(sum(train_X_token[0], [])) # 이게 되누
-# [4, 4, 5, 2, 3, 2, 3, 2, 3, 6]
+for idx in range(len(train_X_token)):
+    loc = sum(train_X_token[idx], [])
+    train_X_sum.append(loc)
 
-# input_dim = len(tokenizer.word_index) + 1
-# max_len = max(len(length) for length in train_X_token)
-# train_X = pad_sequences(train_X_token, maxlen=40)
+input_dim = len(tokenizer.word_index) + 1
+max_len = max(len(length) for length in train_X_sum)
+train_X = pad_sequences(train_X_sum, maxlen=max_len, padding="post")
 
-# import tensorflow as tf
-# from tensorflow.keras.layers import *
-# from tensorflow.keras.regularizers import *
-# from tensorflow.keras.utils import to_categorical
-# from tensorflow.keras.optimizers import Adam, RMSprop
-# from tensorflow.keras.models import Sequential, load_model, Model
-# from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint,  ReduceLROnPlateau
-#
-# model = Sequential()
-# model.add(Embedding(input_dim, 64, input_length=max_len))
-# model.add(Flatten())
-# model.add(Dense(32, activation="relu"))
-# model.add(Dense(16, activation="relu"))
-# model.add(Dense(8, activation="relu"))
-# model.add(Dense(2, activation="softmax"))
-#
-# from plot_history import plot_model
-#
-# model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
-# history = model.fit(train_X, train_Y, epochs=10, batch_size=64, validation_split=0.1)
-#
-# plot_model(history)
+import tensorflow as tf
+from tensorflow.keras.layers import *
+from tensorflow.keras.regularizers import *
+from tensorflow.keras.utils import to_categorical
+from tensorflow.keras.optimizers import Adam, RMSprop
+from tensorflow.keras.models import Sequential, load_model, Model
+from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
+
+model = Sequential()
+model.add(Embedding(input_dim+1, 64, input_length=max_len))
+model.add(Flatten())
+model.add(Dense(32, activation="relu"))
+model.add(Dense(16, activation="relu"))
+model.add(Dense(8, activation="relu"))
+model.add(Dense(2, activation="softmax"))
+
+from plot_history import plot_model
+
+model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["accuracy"])
+history = model.fit(train_X, train_Y, epochs=10, batch_size=64, validation_split=0.1)
+
+plot_model(history, "Adam")

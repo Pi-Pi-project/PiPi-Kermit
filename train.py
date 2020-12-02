@@ -5,7 +5,11 @@ from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.optimizers import Adam, RMSprop
 from tensorflow.keras.models import Sequential, load_model, Model
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
-from preprocessing import input_dim, max_len, train_X, train_Y
+from preprocessing import processed_data
+
+# Test Email
+email = "a@gmail.com"
+input_dim, max_len, train_X, train_Y = processed_data(email)
 
 model = Sequential()
 model.add(Embedding(input_dim+1, 64, mask_zero=True, input_length=max_len))

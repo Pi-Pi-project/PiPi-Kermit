@@ -113,7 +113,7 @@ from tensorflow.keras.models import Sequential, load_model, Model
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 
 model = Sequential()
-model.add(Embedding(input_dim+1, 64, input_length=max_len))
+model.add(Embedding(input_dim+1, 64, mask_zero=True, input_length=max_len))
 model.add(Flatten())
 model.add(Dense(32, activation="relu"))
 model.add(Dense(16, activation="relu"))
@@ -125,4 +125,6 @@ from plot_history import plot_model
 model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["accuracy"])
 history = model.fit(train_X, train_Y, epochs=100, batch_size=64, validation_split=0.1)
 
-plot_model(history, "RMSprop")
+model.save_weights("weight/model.h5")
+
+plot_model(history, "RMSprop", False)

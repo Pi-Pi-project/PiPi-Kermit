@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 
-def plot_model(model_history, filename):
+def plot_model(model_history, filename, save):
     fig, axs = plt.subplots(1, 2, figsize=(15, 5))
 
     axs[0].plot(model_history.history["accuracy"], "y", label="train_acc")
@@ -22,5 +22,6 @@ def plot_model(model_history, filename):
 
     axs[1].legend(["train", "validation"], loc="best")
 
-    fig.savefig("./img/" + str(filename) + ".png")
+    if save==True:
+        fig.savefig("./img/" + str(filename) + ".png")
     plt.show()

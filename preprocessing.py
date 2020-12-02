@@ -5,7 +5,7 @@ import pandas as pd
 from eunjeon import Mecab
 from DB_connect_setting import DB
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
-from DB_get_data import _user_skill, _user_search_log, _user_view_log, _other_view_log
+from DB_train_get_data import _user_skill, _user_search_log, _user_view_log, _other_view_log
 
 # Preprocessing Functions
 def regex(input_data):

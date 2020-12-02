@@ -1,8 +1,4 @@
-import tensorflow as tf
 from tensorflow.keras.layers import *
-from tensorflow.keras.regularizers import *
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras.optimizers import Adam, RMSprop
 from tensorflow.keras.models import Sequential, load_model, Model
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
 from preprocessing import processed_data

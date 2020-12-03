@@ -55,8 +55,8 @@ def get_data(email):
 def processed_data(email):
     # US: User_Skillset - user_skill
     # USL: User_Search_Log - search_log
-    # UVL: User_View_Log - id, title, skillset, content, view_log
-    # OVL: Other_USer_Log - id, title, skillset, content, view_log
+    # UVL: User_View_Log - id, title, skillset, content, view_log, label
+    # OVL: Other_USer_Log - id, title, skillset, content, view_log, label
     US, USL, UVL, OVL = get_data(email)
 
     US.user_skill = lower(US.user_skill)
@@ -74,8 +74,7 @@ def processed_data(email):
 
     train_data_A = pd.concat([US, USL], axis=1, ignore_index=True)
     train_data_B = pd.concat([UVL, OVL], ignore_index=True)
-    train_dataset = pd.concat([train_data_A, train_data_B], axis=1, ignore_index=True).sample(frac=1).reset_index(
-        drop=True)
+    train_dataset = pd.concat([train_data_A, train_data_B], axis=1, ignore_index=True).sample(frac=1).reset_index(drop=True)
     train_dataset.columns = ["user_skill", "search_log", "id", "title", "skillset", "content", "view_log", "label"]
     train_dataset = train_dataset.fillna("undefined")
 

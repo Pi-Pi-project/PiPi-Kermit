@@ -1,7 +1,8 @@
+import os
 from tensorflow.keras.layers import *
-from tensorflow.keras.models import Sequential, load_model, Model
+from tensorflow.keras.models import Sequential
 from tensorflow.keras.callbacks import EarlyStopping, ModelCheckpoint, ReduceLROnPlateau
-from preprocessing import processed_data
+from train_preprocessing import processed_data
 
 # Test Email
 email = "a@gmail.com"
@@ -20,6 +21,9 @@ from plot_history import plot_model
 model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["accuracy"])
 history = model.fit(train_X, train_Y, epochs=100, batch_size=64, validation_split=0.1)
 
-model.save_weights("weight/model.h5")
+if not(os.path.isdir("weight")):
+    os.makedirs(os.path.join("weight"))
+
+model.save_weights("model/model.h5")
 
 plot_model(history, "RMSprop", False)

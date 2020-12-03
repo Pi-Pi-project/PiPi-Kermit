@@ -24,4 +24,5 @@ def plot_model(model_history, filename, save):
 
     if save==True:
         fig.savefig("./img/" + str(filename) + ".png")
+
     plt.show()

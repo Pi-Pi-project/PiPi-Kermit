@@ -21,17 +21,21 @@ def _user_search_log(email):
     return user_search_log
 
 def _post_list(email):
-    sql_query = "select post.id as 'id', post.title as 'title', post_skillset.skill as 'skillset', post.content as 'content', user_view_log.log as 'view_log' from user, post, user_view_log, post_skillset, member where user.email=member.user_email and member.project_id!=post.id"
+    sql_query = "select post.id as 'id', post.title as 'title', post_skillset.skill as 'skillset', post.content as 'content', user_view_log.log as 'view_log' from user, post, user_view_log, post_skillset, member where user.email=" + "'" + str(email) + "'" + "and user.email=member.user_email and member.project_id!=post.id order by post.id DESC LIMIT 40"
 
+    cursor.execute(sql_query)
+    post_list = pd.DataFrame(cursor.fetchall())
+
+    return post_list
 
 # PyMySQL Tester
 # def test(email):
 #     US = _user_skill(email)
 #     USL= _user_search_log(email)
-#     UVL = _user_view_log(email)
-#     OVL = _other_view_log(email)
+#     PL = _post_list(email)
 #
 #     print("[US]\n", US, "\n")
 #     print("[USL]\n", USL, "\n")
-#     print("[UVL]\n", UVL, "\n")
-#     print("[OVL]\n", OVL, "\n")
+#     print("[PL]\n", PL, "\n")
+#
+# test("a@gmail.com")

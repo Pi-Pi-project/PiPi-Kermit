@@ -49,3 +49,5 @@ def _other_view_log(email):
 #     print("[USL]\n", USL, "\n")
 #     print("[UVL]\n", UVL, "\n")
 #     print("[OVL]\n", OVL, "\n")
+#
+# test("a@gmail.com")

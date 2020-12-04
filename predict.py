@@ -1,17 +1,13 @@
-from tensorflow.keras.layers import *
-from tensorflow.keras.models import Sequential
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
+import numpy as np
 from predict_preprocessing import processed_data
+from tensorflow.keras.models import load_model
 
-input_dim, max_len, X_data = processed_data("a@gmail.com")
+X_data, train_dataset = processed_data("a@gmail.com")
 
-model = Sequential()
-model.add(Embedding(input_dim+1, 64, mask_zero=True, input_length=max_len))
-model.add(Flatten())
-model.add(Dense(32, activation="relu"))
-model.add(Dense(16, activation="relu"))
-model.add(Dense(8, activation="relu"))
-model.add(Dense(1, activation="sigmoid"))
+model = load_model("./weight/model.h5")
 
-model.load_weights("weight/model.h5")
+result = model.predict(X_data)
 
-model.predict(X_data)
+print(train_dataset.loc[np.argmax(result)])

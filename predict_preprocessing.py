@@ -72,15 +72,14 @@ def processed_data(email):
 
     X_sum = []
     X_token = []
-    X_raw = train_dataset[[x for x in train_dataset.columns if x != "label"]]
 
     from tensorflow.keras.preprocessing.text import Tokenizer
     from tensorflow.keras.preprocessing.sequence import pad_sequences
 
     tokenizer = Tokenizer(oov_token="undefined")
 
-    for idx in range(len(X_raw)):
-        loc = list(X_raw.loc[idx])
+    for idx in range(len(train_dataset)):
+        loc = list(train_dataset.loc[idx])
         tokenizer.fit_on_texts(loc)
         X_token.append(list(tokenizer.texts_to_sequences(loc)))
 
@@ -88,8 +87,8 @@ def processed_data(email):
         loc = sum(X_token[idx], [])
         X_sum.append(loc)
 
+    max_len = 50
     input_dim = len(tokenizer.word_index) + 1
-    max_len = max(len(length) for length in X_sum)
     X_data = np.array(pad_sequences(X_sum, maxlen=max_len, padding="post"))
 
-    return input_dim, max_len, X_data
+    return X_data, train_dataset

@@ -97,8 +97,11 @@ def processed_data(email):
         loc = sum(X_token[idx], [])
         X_sum.append(loc)
 
+    max_len = 50
     input_dim = len(tokenizer.word_index) + 1
-    max_len = max(len(length) for length in X_sum)
     X_data = np.array(pad_sequences(X_sum, maxlen=max_len, padding="post"))
+
+    # print(X_data)
+    # print(X_data.shape)
 
     return input_dim, max_len, X_data, Y_data

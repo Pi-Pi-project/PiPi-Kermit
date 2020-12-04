@@ -41,13 +41,16 @@ def nouns(input_data):
 
 # Get DataFrame from PiPi MySQL DB with PyMySQL
 def get_data(email):
-    try:
-        skill_df = _user_skill(email)
-        search_log_df = _user_search_log(email)
-        post_df = _post_list(email)
-
-    finally:
-        DB.close()
+    skill_df = _user_skill(email)
+    search_log_df = _user_search_log(email)
+    post_df = _post_list(email)
+    # try:
+    #     skill_df = _user_skill(email)
+    #     search_log_df = _user_search_log(email)
+    #     post_df = _post_list(email)
+    #
+    # finally:
+    #     DB.close()
 
     return skill_df, search_log_df, post_df
 

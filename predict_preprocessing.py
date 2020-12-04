@@ -57,16 +57,24 @@ def processed_data(email):
     # PL: Post_List - id, title, skillset, content, view_log
     US, USL, PL = get_data(email)
 
+    # select post.id as 'id', post.title as 'title', post.img as 'img'
+    # post.category as 'cate', post.idea as 'idea', post_skillset.skill as 'skillset'
+    # post.max as 'max', post.user_email as 'email', user.profile_image as 'profile_img'
+    # user.nickname as 'nickname', post.created_at as 'created'
+    # post.content as 'content', user_view_log.log as 'view_log'
+    predict_PL = PL[[x for x in PL.columns if x not in ["img", "cate", "idea", "max", "email", "profile_img", "nickname", "created"]]]
+    response_PL = PL[[x for x in PL.columns if x not in ["content", "view_log"]]]
+
     US.user_skill = lower(US.user_skill)
     USL.search_log = lower(USL.search_log)
-    PL.id = list(map(str, PL.id))
-    PL.title = nouns(regex(lower(PL.title)))
-    PL.skillset = lower(PL.skillset)
-    PL.content = nouns(regex(lower(PL.content)))
-    PL.view_log = lower(PL.view_log)
+    predict_PL.id = list(map(str, predict_PL.id))
+    predict_PL.title = nouns(regex(lower(predict_PL.title)))
+    predict_PL.skillset = lower(predict_PL.skillset)
+    predict_PL.content = nouns(regex(lower(predict_PL.content)))
+    predict_PL.view_log = lower(predict_PL.view_log)
 
     train_data_A = pd.concat([US, USL], axis=1, ignore_index=True)
-    train_dataset = pd.concat([train_data_A, PL], axis=1, ignore_index=True).sample(frac=1).reset_index(drop=True)
+    train_dataset = pd.concat([train_data_A, predict_PL], axis=1, ignore_index=True).sample(frac=1).reset_index(drop=True)
     train_dataset.columns = ["user_skill", "search_log", "id", "title", "skillset", "content", "view_log"]
     train_dataset = train_dataset.fillna("undefined")
 
@@ -88,7 +96,7 @@ def processed_data(email):
         X_sum.append(loc)
 
     max_len = 50
-    input_dim = len(tokenizer.word_index) + 1
+    # input_dim = len(tokenizer.word_index) + 1
     X_data = np.array(pad_sequences(X_sum, maxlen=max_len, padding="post"))
 
-    return X_data, train_dataset
+    return X_data, response_PL

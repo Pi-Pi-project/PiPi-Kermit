@@ -3,7 +3,6 @@ os.environ['TF_CPP_MIN_LOG_LEVEL'] = "3"
 import numpy as np
 from tensorflow.keras.models import load_model
 from predict_preprocessing import processed_data
-import pprint
 
 def model_predict(email):
     X_data, response_PL = processed_data(email)

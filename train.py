@@ -22,7 +22,7 @@ def model_train(email):
     from plot_history import plot_model
 
     model.compile(optimizer="rmsprop", loss="binary_crossentropy", metrics=["accuracy"])
-    history = model.fit(train_X, train_Y, epochs=100, batch_size=64, validation_split=0.1)
+    history = model.fit(train_X, train_Y, epochs=20, batch_size=64, validation_split=0.1)
 
     model.save("weight/model.h5")
 

@@ -21,7 +21,7 @@ def _user_search_log(email):
     return user_search_log
 
 def _post_list(email):
-    sql_query = "select post.id as 'id', post.title as 'title', post.img as 'img', post.category as 'cate', post.idea as 'idea', post_skillset.skill as 'skillset', post.max as 'max', post.user_email as 'email', user.profile_image as 'profile_img', user.nickname as 'nickname', post.created_at as 'created', post.content as 'content', user_view_log.log as 'view_log' from user, post, user_view_log, post_skillset, member where user.email=" + "'" + str(email) + "'" + "and user.email=member.user_email and member.project_id!=post.id order by post.id DESC LIMIT 40"
+    sql_query = "select post.id as 'id', post.title as 'title', post.img as 'img', post.category as 'cate', post.idea as 'idea', post_skillset.skill as 'skillset', post.max as 'max', post.user_email as 'email', user.profile_image as 'profile_img', user.nickname as 'nickname', post.created_at as 'created', post.content as 'content', user_view_log.log as 'view_log' from user, post, user_view_log, post_skillset, member where user.email=" + "'" + str(email) + "'" + "and user.email=member.user_email and member.project_id!=post.id order by user.nickname DESC LIMIT 40"
 
     cursor.execute(sql_query)
     post_list = pd.DataFrame(cursor.fetchall())

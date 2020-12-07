@@ -72,7 +72,7 @@ def processed_data(email):
     UVL.view_log = lower(UVL.view_log)
     OVL.id = list(map(str, OVL.id))
     OVL.title = nouns(regex(lower(OVL.title)))
-    OVL.skillset = lower(OVL.title)
+    OVL.skillset = nouns(regex(lower(OVL.title)))
     OVL.content = nouns(regex(lower(OVL.content)))
     OVL.view_log = lower(OVL.view_log)
 

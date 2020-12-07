@@ -20,7 +20,6 @@ def input():
 @app.route("/output", methods=['POST'])
 def output():
     email = request.json['email']
-
     out = model_predict(email)
 
     return jsonify(out)

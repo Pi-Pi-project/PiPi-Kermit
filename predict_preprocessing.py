@@ -72,7 +72,7 @@ def processed_data(email):
     USL.search_log = lower(USL.search_log)
     predict_PL.id = list(map(str, predict_PL.id))
     predict_PL.title = nouns(regex(lower(predict_PL.title)))
-    predict_PL.skillset = lower(predict_PL.skillset)
+    predict_PL.skillset = nouns(regex(lower(predict_PL.skillset)))
     predict_PL.content = nouns(regex(lower(predict_PL.content)))
     predict_PL.view_log = lower(predict_PL.view_log)
 

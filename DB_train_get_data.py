@@ -30,7 +30,7 @@ def _user_view_log(email):
     return user_view_log
 
 def _other_view_log(email):
-    sql_query = "select post.id as 'id', post.title as 'title', post_skillset.skill as 'skillset', post.content as 'content', user_view_log.log as 'view_log' from user, post, post_skillset, user_view_log where user.email!=" + "'" + str(email) + "'" + "and user.email=user_view_log.user_email and user_view_log.post_id=post.id and post.id=post_skillset.post_id order by post.id DESC LIMIT 20"
+    sql_query = "select post.id as 'id', post.title as 'title', post_skillset.skill as 'skillset', post.content as 'content', user_view_log.log as 'view_log' from user, post, post_skillset, user_view_log where user.email!=" + "'" + str(email) + "'" + "and user.email=user_view_log.user_email and user_view_log.post_id=post.id and post.id=post_skillset.post_id order by user.nickname DESC LIMIT 20"
 
     cursor.execute(sql_query)
     other_view_log = pd.DataFrame(cursor.fetchall())
